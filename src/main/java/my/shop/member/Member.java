@@ -21,12 +21,16 @@ public class Member {
 
     private String password;
 
-    public static Member createMember(MemberSignupForm memberSignupForm) {
+    @Enumerated(EnumType.STRING)
+    private MemberRole memberRole;
+
+    public static Member createMember(MemberSignupForm memberSignupForm, MemberRole role) {
         Member member = new Member();
         member.setEmail(memberSignupForm.getEmail());
         member.setName(memberSignupForm.getFirstName() + memberSignupForm.getLastName());
         member.setPassword(memberSignupForm.getPassword()); // password encoding 필요
         member.setPhone_number(memberSignupForm.getPhone_number());
+        member.setMemberRole(role);
         return member;
     }
 

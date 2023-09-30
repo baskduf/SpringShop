@@ -1,60 +1,13 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layoutFile :: layout ('Login', ~{::section})}">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>Shop Homepage - Start Bootstrap Template</title>
-  <link rel="icon" type="image/x-icon" href="../../static/assets/favicon.ico" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-  <!-- Bootstrap icons-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="/css/styles.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/login_style.css">
+  <meta charset="UTF-8">
 </head>
 <body>
-<!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container px-4 px-lg-5">
-    <a class="navbar-brand" href="#!">Start Bootstrap</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#!">All Products</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <button class="btn btn-outline-dark" type="submit">
-          <i class="bi-cart-fill me-1"></i>
-          Cart
-          <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-        </button>
-      </form>
-    </div>
-  </div>
-</nav>
-<!-- Header-->
-<header class="bg-dark py-5">
-  <div class="container px-4 px-lg-5 my-5">
-    <div class="text-center text-white">
-      <h1 class="display-4 fw-bolder">Shop in style</h1>
-      <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
-    </div>
-  </div>
-</header>
-<!-- Section-->
-<section>
+<!--Body Here--><!-- Section-->
+<section th:object="${member}">
   <div class="container pb-5 mb-sm-4">
     <div class="row pt-5">
       <div>
@@ -77,22 +30,27 @@
             </div>
             <hr>
             <h3 class="h6 font-weight-semibold opacity-70 pt-4 pb-2">Or using form below</h3>
-            <form class="needs-validation" novalidate="">
+            <div th:if="${#fields.hasGlobalErrors()}">
+              <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red"></p>
+            </div>
+            <form class="needs-validation" novalidate="" method="post" th:action>
+              <div th:errors="*{email}" style="color: red"></div>
               <div class="input-group form-group">
                 <div class="input-group-prepend"><span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span></div>
-                <input class="form-control" type="email" placeholder="Email" required="">
+                <input class="form-control" type="email" placeholder="Email" required="" th:field="*{email}">
                 <div class="invalid-feedback">Please enter valid email address!</div>
               </div>
+              <div th:errors="*{password}" style="color: red"></div>
               <div class="input-group form-group">
                 <div class="input-group-prepend"><span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span></div>
-                <input class="form-control" type="password" placeholder="Password" required="">
+                <input class="form-control" type="password" placeholder="Password" required="" th:field="*{password}">
                 <div class="invalid-feedback">Please enter valid password!</div>
               </div>
               <div class="d-flex flex-wrap justify-content-between">
                 <div class="custom-control custom-checkbox">
                   <input class="custom-control-input" type="checkbox" checked="" id="remember_me">
                   <label class="custom-control-label" for="remember_me">Remember me</label>
-                </div><a class="nav-link-inline font-size-sm" href="account-password-recovery.html">Forgot password?</a>
+                </div><a class="nav-link-inline font-size-sm" href="account-password-recovery.html" th:href="@{/member/signup}">Sign up</a>
               </div>
               <hr class="mt-4">
               <div class="text-right pt-4">
@@ -102,70 +60,9 @@
           </div>
         </div>
       </div>
-
-      <!--<div class="col-md-6 pt-5 pt-sm-3">
-        <h2 class="h4 mb-3">No account? Sign up</h2>
-        <p class="text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
-        <form class="needs-validation" novalidate="">
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="reg-fn">First Name</label>
-                <input class="form-control" type="text" required="" id="reg-fn">
-                <div class="invalid-feedback">Please enter your first name!</div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="reg-ln">Last Name</label>
-                <input class="form-control" type="text" required="" id="reg-ln">
-                <div class="invalid-feedback">Please enter your last name!</div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="reg-email">E-mail Address</label>
-                <input class="form-control" type="email" required="" id="reg-email">
-                <div class="invalid-feedback">Please enter valid email address!</div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="reg-phone">Phone Number</label>
-                <input class="form-control" type="text" required="" id="reg-phone">
-                <div class="invalid-feedback">Please enter your phone number!</div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="reg-password">Password</label>
-                <input class="form-control" type="password" required="" id="reg-password">
-                <div class="invalid-feedback">Please enter password!</div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="reg-password-confirm">Confirm Password</label>
-                <input class="form-control" type="password" required="" id="reg-password-confirm">
-                <div class="invalid-feedback">Passwords do not match!</div>
-              </div>
-            </div>
-          </div>
-          <div class="text-right">
-            <button class="btn btn-primary" type="submit">Sign Up</button>
-          </div>
-        </form>
-      </div> -->
     </div>
   </div>
 </section>
-<!-- Footer-->
-<footer class="py-5 bg-dark">
-  <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
-</footer>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="../../static/js/scripts.js"></script>
+<!--Body End-->
 </body>
 </html>

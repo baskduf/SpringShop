@@ -1,5 +1,6 @@
 package my.shop.member;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     public String signupProcess(@Validated @ModelAttribute("member") MemberSignupForm memberSignupForm, BindingResult bindingResult) {
-        if (! memberSignupForm.getPassword().equals(memberSignupForm.getConfirm_password())) {
+        if (!memberSignupForm.getPassword().equals(memberSignupForm.getConfirm_password())) {
             bindingResult.reject("signupPasswordNotEquals");
         }
         // 이미 회원이 있는지 Repository 에서 검증이 필요
@@ -38,10 +39,23 @@ public class MemberController {
         }
 
         // 검증 완료
-        Member member = Member.createMember(memberSignupForm);
+        Member member = Member.createMember(memberSignupForm, MemberRole.NORMAL);
         memberRepository.save(member);
         log.info("saved Member = {}", member);
 
         return "redirect:/";
+    }
+
+    @PostConstruct
+    public void registerAdmin() {
+        MemberSignupForm memberSignupForm = new MemberSignupForm();
+        memberSignupForm.setEmail("admin");
+        memberSignupForm.setPassword("admin");
+        memberSignupForm.setFirstName("a");
+        memberSignupForm.setLastName("dmin");
+        memberSignupForm.setPhone_number("010-xxxx-xxxx");
+        Member member = Member.createMember(memberSignupForm, MemberRole.ADMIN);
+        memberRepository.save(member);
+        log.info("saved Admin Member = {}", member);
     }
 }

@@ -1,0 +1,10 @@
+@media (max-width: 400px) {
+    #banner_img {
+        display: none;
+    }
+}
+@media (min-width: 400px) {
+    #banner_text {
+        display: none;
+    }
+}
