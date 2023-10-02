@@ -3,6 +3,7 @@ package my.shop;
 import lombok.RequiredArgsConstructor;
 import my.shop.auth.AuthArgumentResolver;
 import my.shop.auth.AuthInterceptor;
+import my.shop.member.MemberInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,10 +16,13 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     private final AuthArgumentResolver authArgumentResolver;
+    private final MemberInterceptor memberInterceptor;
+    private final AuthInterceptor authInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor());
+        registry.addInterceptor(authInterceptor);
+        registry.addInterceptor(memberInterceptor);
     }
 
     @Override

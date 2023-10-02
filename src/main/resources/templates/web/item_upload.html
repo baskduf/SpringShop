@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layoutFile :: layout ('Admin', ~{::section})}">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<!-- Section-->
+<section th:object="${item}">
+    <!-- Product section-->
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" id="preview" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+            <div class="col-md-6">
+
+                <h1>Upload Song</h1>
+                <hr />
+
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red"></p>
+                </div>
+
+                <form action="" th:action method="post" enctype="multipart/form-data">
+                    <label th:field="*{itemName}" for="songname" class="control-label py-md-2">The name of the Song</label>
+                    <div th:errors="*{itemName}" style="color: red"></div>
+                    <input type="text" class="form-control" id="songname" placeholder="The name of the Song" th:field="*{itemName}">
+
+                    <label th:field="*{artist}" for="artist" class="control-label py-md-2">artist</label>
+                    <div th:errors="*{artist}" style="color: red"></div>
+                    <input type="text" class="form-control" id="artist" placeholder="artist" th:field="*{artist}">
+
+                    <label th:field="*{price}" for="price" class="control-label py-md-2">price</label>
+                    <div th:errors="*{price}" style="color: red"></div>
+                    <input type="text" class="form-control" id="price" placeholder="price" th:field="*{price}">
+
+                    <label th:field="*{discountPrice}" for="discount-price" class="control-label py-md-2">discount price</label>
+                    <div th:errors="*{discountPrice}" style="color: red"></div>
+                    <input type="text" class="form-control" id="discount-price" placeholder="discount price" th:field="*{discountPrice}">
+
+                    <label th:field="*{description}" for="description" class="control-label py-md-2">description</label>
+                    <div th:errors="*{description}" style="color: red"></div>
+                    <textarea class="form-control" id="description" rows="5" th:field="*{description}"></textarea>
+
+                    <label th:field="*{imageFile}" for="image_file" class="py-md-2">Image Upload : </label>
+                    <div th:errors="*{imageFile}" style="color: red"><br></div>
+                    <input type="file" id="image_file" accept="image/*" onchange="setThumbnail(this);" th:field="*{imageFile}">
+
+                    <label th:field="*{audioFile}" for="audio_file" class="py-md-2">Audio Upload : </label>
+                    <div th:errors="*{audioFile}" style="color: red"><br></div>
+                    <input type="file" id="audio_file" accept="audio/*"  th:field="*{audioFile}">
+                    <br>
+                    <br>
+                    <button class="btn btn-outline-dark flex-shrink-0 float-end" type="submit">
+                        <i class="bi bi-bag-check-fill"></i>
+                        Upload
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function setThumbnail(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview').src = "";
+            }
+        }
+        
+    </script>
+</section>
+</body>
+</html>

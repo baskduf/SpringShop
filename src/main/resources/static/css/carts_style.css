@@ -363,7 +363,7 @@ body{
 .comparison-table .comparison-item .comparison-item-title:hover {
     color: #ac32e4;
 }
-.remove-item {
+.edit-item {
     display: block;
     position: absolute;
     top: -5px;
