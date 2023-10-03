@@ -1,4 +1,4 @@
-package my.shop.auth;
+package my.shop.interceptor;
 
 public class AuthAudioValidationInterceptor {
 }

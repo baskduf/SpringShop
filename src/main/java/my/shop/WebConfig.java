@@ -1,10 +1,10 @@
 package my.shop;
 
 import lombok.RequiredArgsConstructor;
-import my.shop.auth.AuthAdminInterceptor;
+import my.shop.interceptor.AuthAdminInterceptor;
 import my.shop.auth.AuthArgumentResolver;
-import my.shop.auth.AuthInterceptor;
-import my.shop.member.MemberInterceptor;
+import my.shop.interceptor.AuthInterceptor;
+import my.shop.interceptor.MemberInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

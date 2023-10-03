@@ -2,8 +2,10 @@ package my.shop.member;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import my.shop.cart.Cart;
 import my.shop.item.Item;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,15 +27,12 @@ public class Member {
 
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    List<Item> items = new LinkedList<>();
-
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
-    public void order(Item item) {
-        items.add(item);
-    }
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
+
 
     public static Member createMember(MemberSignupForm memberSignupForm, MemberRole role) {
         Member member = new Member();
@@ -42,6 +41,9 @@ public class Member {
         member.setPassword(memberSignupForm.getPassword()); // password encoding 필요
         member.setPhone_number(memberSignupForm.getPhone_number());
         member.setMemberRole(role);
+
+        Cart cart = new Cart();
+        member.setCart(cart);
         return member;
     }
 

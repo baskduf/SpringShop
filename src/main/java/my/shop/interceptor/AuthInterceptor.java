@@ -1,4 +1,4 @@
-package my.shop.auth;
+package my.shop.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,14 +7,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.shop.member.Member;
 import my.shop.member.MemberRepository;
-import my.shop.member.MemberRole;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthAdminInterceptor implements HandlerInterceptor {
+public class AuthInterceptor implements HandlerInterceptor {
 
     private final MemberRepository memberRepository;
 
@@ -26,8 +26,7 @@ public class AuthAdminInterceptor implements HandlerInterceptor {
             if (memberEmail != null) {
                 Member member = memberRepository.findByEmail(memberEmail);
                 if (member != null) {
-                    if(member.getMemberRole() == MemberRole.ADMIN)
-                        return true;
+                    return true;
                 }
             }
 
@@ -35,4 +34,5 @@ public class AuthAdminInterceptor implements HandlerInterceptor {
         response.sendRedirect("/");
         return false;
     }
+
 }

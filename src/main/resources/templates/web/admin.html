@@ -9,6 +9,8 @@
 
     <!-- Section-->
     <div class="container pb-5 mb-2" style="padding-top: 20px">
+        <h1>Management Items</h1>
+        <hr>
         <!-- Cart Item-->
         <th:block th:each="item : ${items.content}">
             <div class="cart-item d-md-flex justify-content-between"><span class="edit-item" th:onclick="|location.href='@{/item/edit/{itemId}(itemId=${item.id})}'|"><i class="bi bi-pencil-fill"></i></span>

@@ -34,6 +34,7 @@ public class Item {
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     private FileResource imageResource;
 
+
     public static Item createItem(ItemUploadForm itemUploadForm, FileResource imageResource, FileResource audioResource) throws IOException {
         Item item = new Item();
         item.setItemName(itemUploadForm.getItemName());
@@ -45,5 +46,4 @@ public class Item {
         item.setAudioResource(audioResource);
         return item;
     }
-
 }
