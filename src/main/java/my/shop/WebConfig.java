@@ -1,6 +1,7 @@
 package my.shop;
 
 import lombok.RequiredArgsConstructor;
+import my.shop.auth.AuthAdminInterceptor;
 import my.shop.auth.AuthArgumentResolver;
 import my.shop.auth.AuthInterceptor;
 import my.shop.member.MemberInterceptor;
@@ -18,11 +19,21 @@ public class WebConfig implements WebMvcConfigurer {
     private final AuthArgumentResolver authArgumentResolver;
     private final MemberInterceptor memberInterceptor;
     private final AuthInterceptor authInterceptor;
+    private final AuthAdminInterceptor authAdminInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor);
-        registry.addInterceptor(memberInterceptor);
+        registry.addInterceptor(memberInterceptor).order(1);
+        registry.addInterceptor(authInterceptor)
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/", "/members/signup", "/auth/login", "/auth/logout",
+                        "/css/**", "/*.ico", "/error", "/assets/**", "/images/**", "/upload/audio/**", "/upload/images/**", "/file/**"
+                );
+        registry.addInterceptor(authAdminInterceptor)
+                .order(3)
+                .addPathPatterns("/admin/**", "/item/add", "/item/edit");
+
     }
 
     @Override

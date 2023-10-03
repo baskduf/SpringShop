@@ -28,21 +28,8 @@ public class AdminController {
         Page<Item> items = itemRepository.findAllByOrderByIdDesc(pageRequest);
         model.addAttribute("items", items);
 
-//        log.info("page of items = {}", items.getContent());
         return "web/admin";
     }
 
-    @PostConstruct
-    void dummyItems() {
-        for (int i = 0; i < 40; i++) {
-            Item item = new Item();
-            item.setItemName("test" + i);
-            item.setDescription("test description");
-            item.setPrice(100);
-            item.setDiscountPrice(100);
-            item.setArtist("test artist");
-            itemRepository.save(item);
-        }
-    }
 
 }

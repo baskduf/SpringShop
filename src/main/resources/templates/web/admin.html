@@ -11,12 +11,17 @@
     <div class="container pb-5 mb-2" style="padding-top: 20px">
         <!-- Cart Item-->
         <th:block th:each="item : ${items.content}">
-            <div class="cart-item d-md-flex justify-content-between"><span class="edit-item"><i class="bi bi-pencil-fill"></i></span>
+            <div class="cart-item d-md-flex justify-content-between"><span class="edit-item" th:onclick="|location.href='@{/item/edit/{itemId}(itemId=${item.id})}'|"><i class="bi bi-pencil-fill"></i></span>
                 <div class="px-3 my-3">
                     <a class="cart-item-product" href="#">
-                        <div class="cart-item-product-thumb"><img src="/images/itemimg_sample.png" alt="Product"></div>
+                        <th:block th:if="${item.imageResource}">
+                            <img class="cart-item-product-thumb" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" th:src="|/file/images/${item.imageResource.serverFileName}|" alt="Product" />
+                        </th:block>
+                        <th:block th:unless="${item.imageResource}">
+                            <img class="cart-item-product-thumb" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Product" />
+                        </th:block>
                         <div class="cart-item-product-info">
-                            <h4 class="cart-item-product-title" th:text="${item.itemName}">Apple iPhone X 256 GB Space Gray</h4><span><strong>Memory:</strong> 256GB</span><span><strong>Color:</strong> Space Gray</span>
+                            <h4 class="cart-item-product-title" th:text="${item.itemName}">Apple iPhone X 256 GB Space Gray</h4><span><strong>Artist:</strong> <span th:text="${item.artist}">256GB</span></span>
                         </div>
                     </a>
                 </div>
@@ -37,7 +42,7 @@
 
         <!-- Content End -->
         <div class="row pt-3 pb-5 mb-2">
-            <div class="col-sm-12 mb-3"><button class="btn btn-outline-dark float-lg-end" type="submit"><i class="bi bi-pencil-fill"></i> Write</button></div>
+            <div class="col-sm-12 mb-3"><button class="btn btn-outline-dark float-lg-end" type="submit" th:onclick="|location.href='@{/item/add}'|"><i class="bi bi-pencil-fill"></i> Write</button></div>
 
             <!-- Pages -->
             <div class="d-flex justify-content-center">
@@ -67,7 +72,9 @@
                     </ul>
                 </nav>
             </div>
+            <!-- Pages End -->
         </div>
+
     </div>
 </section>
 </body>

@@ -19,7 +19,7 @@ public class FileManager {
     @Value("${image.file.path}")
     private String imagePath;
 
-    private String getFullPath(String filename, FileEnum fileEnum) {
+    public String getFullPath(String filename, FileEnum fileEnum) {
         if (fileEnum == FileEnum.AUDIO) {
             return audioPath + filename;
         } else if (fileEnum == FileEnum.IMAGE) {

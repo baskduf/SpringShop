@@ -43,7 +43,7 @@
                     <label th:field="*{imageFile}" for="image_file" class="py-md-2">Image Upload : </label>
                     <div th:errors="*{imageFile}" style="color: red"><br></div>
                     <input type="file" id="image_file" accept="image/*" onchange="setThumbnail(this);" th:field="*{imageFile}">
-
+                    <br>
                     <label th:field="*{audioFile}" for="audio_file" class="py-md-2">Audio Upload : </label>
                     <div th:errors="*{audioFile}" style="color: red"><br></div>
                     <input type="file" id="audio_file" accept="audio/*"  th:field="*{audioFile}">
@@ -58,6 +58,7 @@
         </div>
     </div>
     <script>
+
         function setThumbnail(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

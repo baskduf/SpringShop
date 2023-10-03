@@ -9,204 +9,120 @@
 
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Fancy Product</h5>
-                            <!-- Product price-->
-                            $40.00 - $80.00
+            <th:block th:each="item : ${items.content}">
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Sale badge-->
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" th:if="${item.discountPrice} > 0">Sale</div>
+                        <!-- Product image-->
+                        <div th:onclick="|location.href='@{/order/detail/{itemId}(itemId=${item.id})}'|">
+                            <th:block th:if="${item.imageResource}">
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" th:src="|/file/images/${item.imageResource.serverFileName}|" alt="..." />
+                            </th:block>
+                            <th:block th:unless="${item.imageResource}">
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            </th:block>
                         </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#"><span onclick="ajaxTest('test', '1234')">View options</span></a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Special Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder" th:text="${item.itemName}">Sale Item</h5>
+                                <!-- Product price-->
+                                <span class="text-muted text-decoration-line-through" th:class="(${item.discountPrice} > 0) ? 'text-muted text-decoration-line-through' : ''" th:text="${item.price}">$50.00</span>
+                                <div th:if="${item.discountPrice} > 0" th:text="${item.price} - ${item.discountPrice}" style="display: inline">$25.00</div>
                             </div>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$20.00</span>
-                            $18.00
                         </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                        <!-- Product actions-->
+<!--                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">-->
+<!--                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>-->
+<!--                        </div>-->
+                        <th:block th:if="${item.audioResource}">
+                            <button class="btn btn-outline-dark flex-shrink-0" th:data="${item.audioResource.serverFileName}" type="button" th:onclick="ajaxReceive(this.getAttribute('data'))">
+                                <i class="bi bi-play-fill" th:id="${item.audioResource.serverFileName}"></i>
+                            </button>
+                        </th:block>
+
                     </div>
                 </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Sale Item</h5>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$50.00</span>
-                            $25.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Popular Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <!-- Product price-->
-                            $40.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Sale Item</h5>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$50.00</span>
-                            $25.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Fancy Product</h5>
-                            <!-- Product price-->
-                            $120.00 - $280.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Special Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$20.00</span>
-                            $18.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Popular Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <!-- Product price-->
-                            $40.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
+            </th:block>
         </div>
     </div>
+    <!-- Pages -->
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+
+                <th:block th:if="${items}">
+                    <th:block th:with="maxPage=(${#numbers.formatInteger((items.number / 5), 3)} + 1) * 5">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous" th:if="(${maxPage} - 5) > 0" th:href="@{/(page=${maxPage}-5)}">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#" th:if="(${maxPage} - 4) <= ${items.getTotalPages()}" th:classappend="((${maxPage} - 4) == ${items.number} + 1) ? 'active' : ''" th:text="${maxPage} - 4" th:href="@{/(page=${maxPage}-4)}">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#" th:if="(${maxPage} - 3) <= ${items.getTotalPages()}" th:classappend="((${maxPage} - 3) == ${items.number} + 1) ? 'active' : ''" th:text="${maxPage} - 3" th:href="@{/(page=${maxPage}-3)}">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#" th:if="(${maxPage} - 2) <= ${items.getTotalPages()}" th:classappend="((${maxPage} - 2) == ${items.number} + 1) ? 'active' : ''" th:text="${maxPage} - 2" th:href="@{/(page=${maxPage}-2)}">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#" th:if="(${maxPage} - 1) <= ${items.getTotalPages()}" th:classappend="((${maxPage} - 1) == ${items.number} + 1) ? 'active' : ''" th:text="${maxPage} - 1" th:href="@{/(page=${maxPage}-1)}">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#" th:if="(${maxPage}) <= ${items.getTotalPages()}" th:classappend="((${maxPage}) == ${items.number} + 1) ? 'active' : ''" th:text="${maxPage}" th:href="@{/(page=${maxPage})}">5</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next" th:if="(${maxPage} + 1) <= ${items.getTotalPages()}" th:href="@{/(page=${maxPage}+1)}">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </th:block>
+                </th:block>
+
+            </ul>
+        </nav>
+    </div>
+    <!-- Pages End -->
+    <script>
+        var audio = null;
+
+        function ajaxReceive(itemName) {
+
+            if (audio !== null && document.getElementById(itemName).className==="bi bi-play-fill") {
+                audio.play();
+                document.getElementById(itemName).className = "bi bi-pause-fill";
+                return;
+            }
+            if (audio !== null && document.getElementById(itemName).className==="bi bi-pause-fill") {
+                audio.pause();
+                document.getElementById(itemName).className = "bi bi-play-fill";
+                return;
+            }
+
+            if (audio === null) {
+                $.ajax({
+                    url:'file/validation',
+                    dataType:'text',
+                    contentType:'text/plain',
+                    data:itemName,
+                    method:'POST',
+                    success:function(audioPath){
+                        if (audio !== null && document.getElementById(itemName).className==="bi bi-pause-fill") {
+                            audio.pause();
+                        }
+                        audio = new Audio("/upload/audio/" + audioPath);
+                        audio.play();
+                        document.getElementById(itemName).className = "bi bi-pause-fill";
+
+                        audio.addEventListener("ended", function (){
+                            document.getElementById(itemName).className = "bi bi-play-fill";
+                            audio=null;
+                        });
+
+                    },
+                    error:function(audioPath){
+                        console.error("Error! load fail.");
+                    }
+                });
+            }
+
+
+        }
+    </script>
 </section>
 </body>
 </html>
