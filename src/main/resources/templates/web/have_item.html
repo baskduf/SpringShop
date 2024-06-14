@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layoutFile :: layout ('Home', ~{::section})}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layoutFile :: layout ('Items', ~{::section})}">
 <head>
     <meta charset="UTF-8">
 </head>
@@ -7,14 +7,9 @@
 <!-- Section-->
 <section>
     <div class="container px-4 px-lg-5 mt-5">
-        <h1>Sell Items</h1>
+        <h1>Have Items</h1>
         <hr>
-        <div th:if="${error}">
-            <p class="bg-danger" th:text="${error}"></p>
-        </div>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-
-
 
             <th:block th:each="item : ${items.content}">
                 <div class="col mb-5">
@@ -41,15 +36,11 @@
                             </div>
                         </div>
                         <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:onclick="|location.href='@{/cart/add(itemId=${item.id})}'|"><i class="bi bi-bag-fill"></i> Add to Cart</a></div>
-                        </div>
-<!--                        <th:block th:if="${item.audioResource}">-->
-<!--                            <button class="btn btn-outline-dark flex-shrink-0" th:data="${item.audioResource.serverFileName}" type="button" th:onclick="ajaxReceive(this.getAttribute('data'))">-->
-<!--                                <i class="bi bi-play-fill" th:id="${item.audioResource.serverFileName}"></i>-->
-<!--                            </button>-->
-<!--                        </th:block>-->
-
+                        <th:block th:if="${item.audioResource}">
+                            <button class="btn btn-outline-dark flex-shrink-0" th:data="${item.id}" type="button" th:onclick="ajaxReceive(this.getAttribute('data'))">
+                                <i class="bi bi-play-fill" th:id="${item.id}"></i>
+                            </button>
+                        </th:block>
                     </div>
                 </div>
             </th:block>
@@ -86,22 +77,51 @@
     <!-- Pages End -->
     <script>
         var audio = null;
+        var playedId = null;
 
         function ajaxReceive(itemName) {
 
-            audio.addEventListener('loadeddata', function() {
-                console.log('오디오 데이터가 로드되었습니다.');
-            });
             if (audio !== null && document.getElementById(itemName).className==="bi bi-play-fill") {
-                audio.load();
-                audio.play();
-                document.getElementById(itemName).className = "bi bi-pause-fill";
-                return;
+                if (playedId === itemName) {
+                    audio.play();
+                    document.getElementById(itemName).className = "bi bi-pause-fill";
+                    return;
+                }else{
+                    // 다른 노래 누른 경우
+                    document.getElementById(playedId).className = "bi bi-play-fill";
+                    $.ajax({
+                        url:'file/validation',
+                        dataType:'text',
+                        contentType:'text/plain',
+                        data:itemName,
+                        method:'POST',
+                        success:function(audioPath){
+                            audio.pause();
+                            audio = new Audio("/files/" + audioPath);
+                            audio.load();
+                            audio.play();
+                            playedId = itemName;
+                            document.getElementById(itemName).className = "bi bi-pause-fill";
+
+                            audio.addEventListener("ended", function (){
+                                document.getElementById(itemName).className = "bi bi-play-fill";
+                                audio=null;
+                            });
+
+                        },
+                        error:function(audioPath){
+                            console.error("Error! load fail.");
+                        }
+                    });
+                    return;
+                }
             }
             if (audio !== null && document.getElementById(itemName).className==="bi bi-pause-fill") {
-                audio.pause();
-                document.getElementById(itemName).className = "bi bi-play-fill";
-                return;
+                if (playedId === itemName) {
+                    audio.pause();
+                    document.getElementById(itemName).className = "bi bi-play-fill";
+                    return;
+                }
             }
 
             if (audio === null) {
@@ -115,11 +135,9 @@
                         if (audio !== null && document.getElementById(itemName).className==="bi bi-pause-fill") {
                             audio.pause();
                         }
-                        console.log(audioPath);
                         audio = new Audio("/files/" + audioPath);
-                        audio.load();
-
                         audio.play();
+                        playedId = itemName;
                         document.getElementById(itemName).className = "bi bi-pause-fill";
 
                         audio.addEventListener("ended", function (){

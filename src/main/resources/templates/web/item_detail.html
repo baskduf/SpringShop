@@ -25,7 +25,7 @@
                 </div>
                 <p class="lead" th:text="${item.description}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
                 <div class="d-flex">
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                    <button class="btn btn-outline-dark flex-shrink-0" type="button" th:onclick="|location.href='@{/cart/add(itemId=${item.id})}'|">
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>

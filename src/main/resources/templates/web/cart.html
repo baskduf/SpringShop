@@ -74,6 +74,10 @@
         </nav>
       </div>
       <!-- Pages End -->
+      <hr>
+      <div class="col-sm-12 mb-3">
+        Total : <th:block th:text="${totalPrice} + '원 '"></th:block>
+        <button class="btn btn-outline-dark float-lg-end" type="submit" th:onclick="|location.href='@{/order}'|"><i class="bi-cart-fill me-1"></i> Buy</button></div>
     </div>
 
   </div>

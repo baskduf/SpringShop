@@ -48,12 +48,17 @@ public class MemberController {
 
     @PostConstruct
     public void registerAdmin() {
+
         MemberSignupForm memberSignupForm = new MemberSignupForm();
+
         memberSignupForm.setEmail("admin");
         memberSignupForm.setPassword("admin");
         memberSignupForm.setFirstName("a");
         memberSignupForm.setLastName("dmin");
         memberSignupForm.setPhone_number("010-xxxx-xxxx");
+        if (memberRepository.findByEmail(memberSignupForm.getEmail()) != null) {
+            return;
+        }
         Member member = Member.createMember(memberSignupForm, MemberRole.ADMIN);
         memberRepository.save(member);
         log.info("saved Admin Member = {}", member);

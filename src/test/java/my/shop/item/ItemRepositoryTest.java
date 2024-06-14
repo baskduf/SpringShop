@@ -62,8 +62,8 @@ class ItemRepositoryTest {
         item.setAudioResource(audioResource);
 
         itemRepository.save(item);
-
-        System.out.println(itemRepository.findByItemName(item.getItemName()).getAudioResource());
+//
+//        System.out.println(itemRepository.findByItemName(item.getItemName()).getAudioResource());
 
     }
 }

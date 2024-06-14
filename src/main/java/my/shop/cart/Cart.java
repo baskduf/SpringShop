@@ -22,6 +22,10 @@ public class Cart {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cart")
     private List<CartItem> items = new ArrayList<>();
 
+    public void clearItem() {
+        items.clear();
+    }
+
     public void addItem(Item item) {
         CartItem cartItem = CartItem.createCartItem(item);
         this.items.add(cartItem);

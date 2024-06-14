@@ -3,6 +3,7 @@ package my.shop.auth;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import my.shop.member.Member;
 import my.shop.member.MemberLoginForm;
 import my.shop.member.MemberRepository;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
+@Slf4j
 @Controller
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -46,7 +48,7 @@ public class AuthController {
         // 인증 성공
 
         HttpSession session = request.getSession(true);
-        session.setAttribute("member", findMember.getName());
+        session.setAttribute("member", findMember.getEmail());
 
         return "redirect:/";
     }

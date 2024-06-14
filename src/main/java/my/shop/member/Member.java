@@ -3,6 +3,7 @@ package my.shop.member;
 import jakarta.persistence.*;
 import lombok.Data;
 import my.shop.cart.Cart;
+import my.shop.haveitem.HaveItem;
 import my.shop.item.Item;
 
 import java.util.ArrayList;
@@ -33,6 +34,13 @@ public class Member {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "member")
+    private List<HaveItem> haveItems = new ArrayList<>();
+
+    public void addHaveItem(HaveItem haveItem) {
+        haveItems.add(haveItem);
+        haveItem.setMember(this);
+    }
 
     public static Member createMember(MemberSignupForm memberSignupForm, MemberRole role) {
         Member member = new Member();
